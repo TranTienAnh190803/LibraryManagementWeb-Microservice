@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.name())
                                 .requestMatchers("/librarian/**").hasAnyAuthority(Role.LIBRARIAN.name())
                                 .requestMatchers("/member/**").hasAnyAuthority(Role.MEMBER.name())
+                                .requestMatchers("/librarian-member/**").hasAnyAuthority(Role.LIBRARIAN.name(), Role.MEMBER.name())
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
