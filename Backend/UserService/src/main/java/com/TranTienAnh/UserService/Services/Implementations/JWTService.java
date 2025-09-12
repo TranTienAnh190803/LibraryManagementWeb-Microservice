@@ -40,6 +40,7 @@ public class JWTService {
         claims.put("role", user.getRole().name());
 
         return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
                 .claims(claims)
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
