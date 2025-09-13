@@ -6,6 +6,15 @@ class UserService {
         return await axiosUserService.post("/login", loginForm);
     }
 
+    static async getAllUser(role) {
+        return await axiosUserService.get(`/admin/get-all-user?role=${role}`);
+    }
+
+    // Logout
+    static logout() {
+        localStorage.removeItem("token");
+    }
+ 
     // Check Token
     static isTokenExpired() {
         try {

@@ -22,7 +22,11 @@ export default function LoginPage() {
     const response = await UserService.login(loginForm);
     if (response.success) {
       localStorage.setItem("token", response.data.token);
-      navigate("/");
+      if (UserService.isAdmin()) {
+        navigate("/admin/librarian-management");
+      } else {
+        navigate("/");
+      }
     } else {
       alert(response.message);
     }
@@ -32,7 +36,7 @@ export default function LoginPage() {
     <div
       className={`h-screen flex items-center bg-cover bg-center bg-[url(/Assets/Login.jpg)]`}
     >
-      <div className="h-full w-2/5 flex items-center justify-center border-r-2 border-white rounded-r-[35%] p-8 bg-white/70">
+      <div className="h-full w-2/5 flex items-center justify-center border-r-2 border-white rounded-r-[35%] p-8 bg-white/70 backdrop-blur-md">
         <form className="w-4/5" onSubmit={handleSubmit}>
           <h1 className="text-5xl font-bold text-center">Login</h1>
           <hr className="mt-3 mb-8" />
