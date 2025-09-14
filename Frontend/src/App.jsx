@@ -4,6 +4,7 @@ import LoginPage from "./Pages/LoginPage";
 import UserService from "./Services/UserService";
 import HomePage from "./Pages/HomePage";
 import LibrarianManagementPage from "./Pages/LibrarianManagementPage";
+import MemberManagementPage from "./Pages/MemberManagementPage";
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
               <Route
                 path="/admin/librarian-management"
                 element={<LibrarianManagementPage />}
+              />
+              <Route
+                path="/admin/member-management"
+                element={<MemberManagementPage />}
               />
             </>
           )}

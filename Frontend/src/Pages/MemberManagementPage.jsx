@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import AdminTable from "../Components/AdminTable";
 import AdminPopup from "../Components/AdminPopup";
 
-export default function LibrarianManagementPage() {
+export default function MemberManagementPage() {
   document.title = "Admin";
-  const [librarianList, setLibrarianList] = useState([]);
+  const [MemberList, setMemberList] = useState([]);
   const [noUser, setNoUser] = useState({
     check: false,
     message: "",
@@ -23,10 +23,10 @@ export default function LibrarianManagementPage() {
   });
   const [isWorking, setIsWorking] = useState(false);
 
-  const fetchLibrarian = async () => {
-    const response = await UserService.getAllUser("LIBRARIAN");
+  const fetchMember = async () => {
+    const response = await UserService.getAllUser("MEMBER");
     if (response.statusCode === 200 && response.success) {
-      setLibrarianList(response.dataList);
+      setMemberList(response.dataList);
     } else if (response.statusCode === 200 && !response.success) {
       setNoUser({ check: true, message: response.message });
     } else {
@@ -35,7 +35,7 @@ export default function LibrarianManagementPage() {
   };
 
   useEffect(() => {
-    fetchLibrarian();
+    fetchMember();
   }, []);
 
   const handlePopup = () => {
@@ -45,7 +45,7 @@ export default function LibrarianManagementPage() {
   const handleRegister = async (e) => {
     e.preventDefault();
     setIsWorking(true);
-    const response = await UserService.registration(true, registrationForm);
+    const response = await UserService.registration(false, registrationForm);
     alert(response.message);
     setIsWorking(false);
     if (response.success) {
@@ -57,7 +57,7 @@ export default function LibrarianManagementPage() {
     <div className="min-h-screen">
       <Navbar />
       <div className="mt-35 mx-30 p-8 rounded-xl bg-white/80 overflow-x-auto">
-        <h1 className="text-5xl font-bold mb-5">Librarian</h1>
+        <h1 className="text-5xl font-bold mb-5">Member</h1>
         <div className="flex justify-between items-center mb-10">
           <form className="input-box w-1/2!">
             <input
@@ -73,7 +73,7 @@ export default function LibrarianManagementPage() {
             className="text-xl font-bold py-3 px-4 bg-green-700 text-white rounded-md cursor-pointer hover:bg-green-200 hover:text-black"
             onClick={handlePopup}
           >
-            + Register Librarian
+            + Register Member
           </button>
         </div>
         {noUser.check ? (
@@ -81,7 +81,7 @@ export default function LibrarianManagementPage() {
             {noUser.message}
           </h1>
         ) : (
-          <AdminTable data={librarianList} fetchData={fetchLibrarian} />
+          <AdminTable data={MemberList} fetchData={fetchMember} />
         )}
       </div>
       {popup && (

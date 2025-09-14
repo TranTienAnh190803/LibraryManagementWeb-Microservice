@@ -27,9 +27,12 @@ export default function Navbar() {
             >
               Librarians
             </Link>{" "}
-            <div className="text-white text-xl/25 px-8 font-bold cursor-pointer hover:text-gray-500">
+            <Link
+              className="text-white text-xl/25 px-8 font-bold cursor-pointer hover:text-gray-500"
+              to={"/admin/member-management"}
+            >
               Members
-            </div>
+            </Link>
           </>
         ) : (
           <form>

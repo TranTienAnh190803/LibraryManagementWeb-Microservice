@@ -24,8 +24,10 @@ export default function LoginPage() {
       localStorage.setItem("token", response.data.token);
       if (UserService.isAdmin()) {
         navigate("/admin/librarian-management");
+        window.location.reload();
       } else {
         navigate("/");
+        window.location.reload();
       }
     } else {
       alert(response.message);

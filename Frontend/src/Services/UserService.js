@@ -10,6 +10,14 @@ class UserService {
         return await axiosUserService.get(`/admin/get-all-user?role=${role}`);
     }
 
+    static async registration(forLibrarian, registrationForm) {
+        return await axiosUserService.post(`/admin/register?isLibrarian=${forLibrarian}`, registrationForm);
+    }
+
+    static async deleteAccount(userId) {
+        return await axiosUserService.delete(`/admin/delete-user-account?userId=${userId}`);
+    }
+
     // Logout
     static logout() {
         localStorage.removeItem("token");
