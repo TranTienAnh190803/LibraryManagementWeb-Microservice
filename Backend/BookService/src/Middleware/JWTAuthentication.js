@@ -12,12 +12,12 @@ export const jwtAuthentication = (req, res, next) => {
     const authHeader = req.headers.authorization ?? "";
 
     if (authHeader) {
-      const token = authHeader.split("")[1];
+      const token = authHeader.split(" ")[1];
 
       jwt.verify(token, process.env.SECRET_KEY, (error, payload) => {
         if (error) {
           return res.status(401).json({
-            sucess: true,
+            sucess: false,
             message: "Need Valid Authentication Credentials",
           });
         }

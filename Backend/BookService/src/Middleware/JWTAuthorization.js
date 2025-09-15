@@ -1,5 +1,5 @@
-export const jwtAuthorization = (roles) => {
-  if (typeof role === "string") {
+export const jwtAuthorization = (roles = []) => {
+  if (typeof roles === "string") {
     roles = [roles];
   }
 
