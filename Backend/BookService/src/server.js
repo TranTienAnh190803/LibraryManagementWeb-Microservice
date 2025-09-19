@@ -4,12 +4,13 @@ import { connectMongoDB } from "./Config/ConnectDB.js";
 import bookRoute from "./Route/Book.Route.js";
 import cors from "cors";
 import { jwtAuthentication } from "./Middleware/JWTAuthentication.js";
+import { corsConfig } from "./Config/CorsConfig.js";
 
 const port = process.env.PORT;
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors(corsConfig));
 app.use(express.json());
 app.use(jwtAuthentication);
 

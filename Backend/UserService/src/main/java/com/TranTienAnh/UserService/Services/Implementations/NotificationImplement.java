@@ -68,14 +68,16 @@ public class NotificationImplement implements NotificationService {
             if (!members.isEmpty()) {
                 List<Notification> notifications = new ArrayList<>();
                 for (User member : members) {
-                    Notification notification = new Notification(
-                            "The Library Has Added More Books.",
-                            false,
-                            true,
-                            LocalDate.now(),
-                            member
-                    );
-                    notifications.add(notification);
+                    if (!notificationRepository.existsByCreateAtAndUser(LocalDate.now(), member)) {
+                        Notification notification = new Notification(
+                                "The Library Has Added More Books.",
+                                false,
+                                true,
+                                LocalDate.now(),
+                                member
+                        );
+                        notifications.add(notification);
+                    }
                 }
                 notificationRepository.saveAll(notifications);
             }

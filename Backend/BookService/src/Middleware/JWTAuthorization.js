@@ -4,6 +4,9 @@ export const jwtAuthorization = (roles = []) => {
   }
 
   const checkRole = (req, res, next) => {
+    if (!req.jwt) {
+      return;
+    }
     if (roles.some((value) => value === req.jwt.role)) {
       return next();
     }

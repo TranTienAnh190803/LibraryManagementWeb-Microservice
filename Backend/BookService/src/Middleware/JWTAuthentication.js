@@ -5,7 +5,7 @@ export const jwtAuthentication = (req, res, next) => {
     const passList = ["get-all-book", "get-book-info"];
     const path = req.originalUrl.split("/").at(-1);
 
-    if (passList.some((value) => value === path)) {
+    if (passList.some((value) => path.includes(value))) {
       return next();
     }
 
@@ -22,6 +22,7 @@ export const jwtAuthentication = (req, res, next) => {
           });
         }
         req.jwt = payload;
+        req.token = token;
       });
       return next();
     }

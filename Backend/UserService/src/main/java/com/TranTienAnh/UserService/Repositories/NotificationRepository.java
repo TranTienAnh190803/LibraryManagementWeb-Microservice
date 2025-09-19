@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
@@ -15,4 +17,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
             "FROM Notification n " +
             "WHERE n.user = :user")
     List<NotificationDTO> findAllByUser(@Param("user") User user);
+
+    boolean existsByCreateAtAndUser(LocalDate createAt, User user);
 }
