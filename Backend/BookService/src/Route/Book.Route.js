@@ -3,9 +3,12 @@ import { upload } from "../Config/MulterConfig.js";
 import { jwtAuthorization } from "../Middleware/JWTAuthorization.js";
 import {
   addBook,
+  bookFiltering,
+  bookSearching,
   deleteBook,
   editBook,
   getAllBook,
+  getBookImage,
   getBookInfo,
   manageBookBorrowing,
   manageBookReturning,
@@ -34,6 +37,7 @@ route.post(
 );
 route.get("/get-all-book", getAllBook);
 route.get("/get-book-info", getBookInfo);
+route.get("/get-book-image", getBookImage);
 route.delete("/delete-book", jwtAuthorization("LIBRARIAN"), deleteBook);
 route.patch(
   "/manage-book-borrowing",
@@ -45,7 +49,7 @@ route.patch(
   jwtAuthorization("MEMBER"),
   manageBookReturning
 );
-
-// Search Book
+route.post("/book-filtering", bookFiltering);
+route.post("/book-searching", bookSearching);
 
 export default route;

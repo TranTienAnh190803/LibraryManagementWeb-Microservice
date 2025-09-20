@@ -2,7 +2,13 @@ import jwt from "jsonwebtoken";
 
 export const jwtAuthentication = (req, res, next) => {
   try {
-    const passList = ["get-all-book", "get-book-info"];
+    const passList = [
+      "get-all-book",
+      "get-book-info",
+      "get-book-image",
+      "book-filtering",
+      "book-searching",
+    ];
     const path = req.originalUrl.split("/").at(-1);
 
     if (passList.some((value) => path.includes(value))) {

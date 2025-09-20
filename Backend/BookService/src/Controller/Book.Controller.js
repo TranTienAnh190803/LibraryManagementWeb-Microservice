@@ -38,10 +38,8 @@ export const getAllBook = async (req, res) => {
     if (allBook.length > 0) {
       const data = allBook.map((book) => {
         const { image, imageMimeType, ...rest } = book;
-        const imageBase64 = `data:${imageMimeType};base64,${image.toString(
-          "base64"
-        )}`;
-        return { ...rest, image: imageBase64 };
+        const imageUrl = `http://localhost:${process.env.PORT}/book-service/get-book-image?bookId=${rest._id}`;
+        return { ...rest, image: imageUrl };
       });
 
       return res
@@ -55,6 +53,21 @@ export const getAllBook = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, statusCode: 500, message: error.message });
+  }
+};
+
+export const getBookImage = async (req, res) => {
+  const { bookId } = req.query;
+
+  try {
+    const book = await Book.findById(bookId);
+    if (book && book.image && book.imageMimeType) {
+      res.set("Content-Type", book.imageMimeType);
+      res.send(book.image);
+    }
+    return res.status(404).send("Not Found");
+  } catch (error) {
+    return res.status(500).send(error.message);
   }
 };
 
@@ -204,6 +217,74 @@ export const showImage = async (req, res) => {
       res.set("Content-Type", imageMimeType);
       return res.send(image);
     }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, statusCode: 500, message: error.message });
+  }
+};
+
+export const bookFiltering = async (req, res) => {
+  const filterOption = [
+    "category",
+    "author",
+    "publisher",
+    "publishedYear",
+    "importDate",
+  ];
+  const option = req.body;
+  const filter = {};
+
+  try {
+    for (var key in option) {
+      if (filterOption.includes(key)) {
+        filter[key] = option[key];
+      }
+    }
+
+    const books = await Book.find(filter).select("-__v").lean();
+    if (books.length > 0) {
+      const data = books.map((book) => {
+        const { image, imageMimeType, ...rest } = book;
+        const imageUrl = `http://localhost:${process.env.PORT}/book-service/get-book-image?bookId=${rest._id}`;
+        return { ...rest, image: imageUrl };
+      });
+
+      return res
+        .status(200)
+        .json({ success: true, statusCode: 200, dataList: data });
+    }
+    return res
+      .status(200)
+      .json({ success: false, statusCode: 200, message: "There Are No Book." });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, statusCode: 500, message: error.message });
+  }
+};
+
+export const bookSearching = async (req, res) => {
+  const { bookTitle } = req.query;
+
+  try {
+    const books = await Book.find({ title: bookTitle }).select("-__v").lean();
+
+    if (books.length > 0) {
+      const data = books.map((book) => {
+        const { image, imageMimeType, ...rest } = book;
+        return {
+          ...rest,
+          image: `http://localhost:${process.env.PORT}/book-service/get-book-image?bookId=${rest._id}`,
+        };
+      });
+      return res
+        .status(200)
+        .json({ success: true, statusCode: 200, dataList: data });
+    }
+    return res
+      .status(200)
+      .json({ success: false, statusCode: 200, message: "There Are No Book." });
   } catch (error) {
     return res
       .status(500)
